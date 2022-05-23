@@ -1,47 +1,58 @@
 package com.kosta.model;
 
 import java.util.List;
+import java.util.Map;
+
 import com.kosta.dto.EmpVO;
+import com.kosta.dto.JobVO;
 
 
 
-//»ç¿ëÀÚ ¿äÃ» --> Controller --> Service --> DAO --> DB
+//ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» --> Controller --> Service --> DAO --> DB
 // 		   <--			 <--		 <--     <--
 public class EmpService
 {
 	EmpDAO emoDAO = new EmpDAO();
-		//1. ¸ðµçÁ÷¿øÁ¶È¸
+		//1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸
 		public List<EmpVO> selectAll()
 		{		
 			return emoDAO.selectAll();
 		}
 		
+		public List<JobVO> selectJobAll(){
+			return emoDAO.selectJobAll();
+		}
 		
-		//2. Á¶°ÇÁ¶È¸(Æ¯Á¤ºÎ¼­)
+		public Map<Integer, String> selectMGAll(){
+			return emoDAO.selectMGAll();
+		}
+
+	
+		//2. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ï¿½Î¼ï¿½)
 		public List<EmpVO> selectByDept(int deptid)
 		{		
 			return emoDAO.selectByDept(deptid);
 		}
 		
-		//3. Á¶°ÇÁ¶È¸(Æ¯Á¤¸Þ´ÏÀú)
+		//3. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ï¿½Þ´ï¿½ï¿½ï¿½)
 		public List<EmpVO> selectByManager(int mid)
 		{		
 			return emoDAO.selectByManager(mid);
 		}
 		
-		//4. Á¶°ÇÁ¶È¸(Æ¯Á¤ job_id)
+		//4. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ job_id)
 		public List<EmpVO> selectByJob(String job_id)
 		{			
 			return emoDAO.selectByJob(job_id);
 		}
 		
-		//5. Á¶°ÇÁ¶È¸(Æ¯Á¤ department_id, jod_id, salary>=?, hire_date>=?)
+		//5. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ department_id, jod_id, salary>=?, hire_date>=?)
 		public List<EmpVO> selectByCondition(int deptid, String job_id, double sal, String hire_date)
 		{			
 			return emoDAO.selectByCondition(deptid, job_id, sal, hire_date);
 		}
 
-		//6. Æ¯Á¤Á÷¿ø 1°Ç Á¶È¸(»ó¼¼º¸±â)
+		//6. Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½È¸(ï¿½ó¼¼ºï¿½ï¿½ï¿½)
 		public EmpVO selectById(int empid)
 		{
 			return emoDAO.selectById(empid);
@@ -53,25 +64,25 @@ public class EmpService
 			return emoDAO.empInsert(emp);
 		}
 		
-		//8. update(Æ¯Á¤Á÷¿ø 1°Ç employee_id=?)
+		//8. update(Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ employee_id=?)
 		public int empUpdate(EmpVO emp)
 		{			
 			return emoDAO.empUpdate(emp);
 		}	
 		
-		//9. update(Á¶°Ç department_id= ?	)
+		//9. update(ï¿½ï¿½ï¿½ï¿½ department_id= ?	)
 		public int empUpdateByDept(EmpVO emp, int deptid)
 		{			
 			return emoDAO.empUpdate(emp);
 		}			
 		
-		//10. delete(Æ¯Á¤Á÷¿ø 1°Ç employee_id=?)
+		//10. delete(Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ employee_id=?)
 		public int empDelete(int deptid)
 		{
 			return emoDAO.empDelete(deptid);
 		}	
 
-		//11. delete(Á¶°Ç employee_id=?)
+		//11. delete(ï¿½ï¿½ï¿½ï¿½ employee_id=?)
 		public int empDeleteByDept(int deptid)
 		{
 			return emoDAO.empDeleteByDept(deptid);

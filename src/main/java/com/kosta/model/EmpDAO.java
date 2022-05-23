@@ -6,28 +6,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 //import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.kosta.dto.EmpVO;
+import com.kosta.dto.JobVO;
 import com.kosta.util.DBUtill;
 
-//CRUDÀÛ¾÷ (insert(C), select(R), update(U), Delete(D)  ==> DAO(Data Access Object)
+//CRUDï¿½Û¾ï¿½ (insert(C), select(R), update(U), Delete(D)  ==> DAO(Data Access Object)
 public class EmpDAO
 {
 	static final String SQL_SELECT_ALL = "select * from employees order by 1";
-	static final String SQL_SELECT_BYDEPT = "select * from employees where department_id = ? order by 1"; // ? ¹ÙÀÎµù º¯¼ö
-																											// (°¡º¯º¯¼ö)
-	static final String SQL_SELECT_BYMANAGER = "select * from employees where MANAGER_ID = ? order by 1"; // ? ¹ÙÀÎµù º¯¼ö
-																											// (°¡º¯º¯¼ö)
-	static final String SQL_SELECT_JOB = "select * from employees where job_id = ? order by 1"; // ? ¹ÙÀÎµù º¯¼ö (°¡º¯º¯¼ö)
+	static final String SQL_SELECT_BYDEPT = "select * from employees where department_id = ? order by 1"; // ? ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½
+																											// (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+	static final String SQL_SELECT_BYMANAGER = "select * from employees where MANAGER_ID = ? order by 1"; // ? ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½
+																											// (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
+	static final String SQL_SELECT_JOB = "select * from employees where job_id = ? order by 1"; // ? ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
 	static final String SQL_SELECT_CONDITION = "select * from employees " + "where DEPARTMENT_ID = ? " + "and JOB_ID=? "
 			+ "and SALARY>=? " + "and HIRE_DATE>=? " + "order by 1";
 	static final String SQL_SELECT_ByID = "select * from employees where EMPLOYEE_ID = ?";
 	static final String SQL_INSERT = "insert into employees values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	static final String SQL_UPDATE = "UPDATE EMPLOYEES SET\r\n" + "FIRST_NAME=?,\r\n" + "LAST_NAME =?,\r\n"
 			+ "EMAIL  =?,\r\n" + "PHONE_NUMBER  =?,\r\n" + "HIRE_DATE  =?,\r\n" + "JOB_ID  =?,\r\n" + "SALARY  =?,\r\n"
-			+ "COMMISSION_PCT  =?,\r\n" + "MANAGER_ID  =?,\r\n" + "DEPARTMENT_ID  =?\r\n" + "WHERE EMPLOYEE_ID  =?";
+			+ "COMMISSION_PCT  =?,\r\n" + "MANAGER_ID  =decode(?,0,null,?),\r\n" + "DEPARTMENT_ID  =?\r\n" + "WHERE EMPLOYEE_ID  =?";
 
 	static final String SQL_UPDATE_BYDEPT= "UPDATE EMPLOYEES SET\r\n"
 	 		+ "SALARY  =?,\r\n"
@@ -40,14 +43,17 @@ public class EmpDAO
 			+ "WHERE DEPARTMENT_ID = ?";	
 	
 	
+	static final String SQL_SELECT_MANAGERALL="SELECT EMPLOYEE_ID, FIRST_NAME\r\n"
+			+ "FROM EMPLOYEES\r\n"
+			+ "WHERE EMPLOYEE_ID  IN (SELECT DISTINCT MANAGER_ID FROM EMPLOYEES)";
 
 	Connection conn;
 	Statement st;
-	PreparedStatement pst; // ¹ÙÀÎµù º¯¼ö Áö¿ø (?)
+	PreparedStatement pst; // ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (?)
 	ResultSet rs;
 	int result;
 
-	// 1. ¸ðµçÁ÷¿øÁ¶È¸
+	// 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸
 	public List<EmpVO> selectAll()
 	{
 		List<EmpVO> emplist = new ArrayList<EmpVO>();
@@ -72,6 +78,61 @@ public class EmpDAO
 
 		return emplist;
 	}
+	
+	//ëª¨ë“  ë©”ë‹ˆì € ì¡°íšŒ
+	public Map<Integer, String> selectMGAll()
+	{
+		
+		Map<Integer, String> mgMap = new HashMap<Integer, String>();		
+		
+		conn = DBUtill.getConnection();
+		try
+		{
+			st = conn.createStatement();
+			rs = st.executeQuery(SQL_SELECT_MANAGERALL);
+			
+			while (rs.next())
+			{
+				mgMap.put(rs.getInt(1), rs.getString(2));
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			DBUtill.dbClose(rs, st, conn);
+		}
+		
+		return mgMap;
+	}
+	
+	//ëª¨ë“  jobs ì¡°íšŒ
+	public List<JobVO> selectJobAll()
+	{
+		List<JobVO> joblist = new ArrayList<JobVO>();
+		conn = DBUtill.getConnection();
+		try
+		{
+			st = conn.createStatement();
+			rs = st.executeQuery("select * from jobs order by 1");
+			
+			while (rs.next())
+			{
+				JobVO job = new JobVO(rs.getString(1),rs.getString(2),rs.getInt(3),rs.getInt(4));
+				joblist.add(job);
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			DBUtill.dbClose(rs, st, conn);
+		}
+		
+		return joblist;
+	}
 
 	private EmpVO makeEmp(ResultSet rs) throws SQLException
 	{
@@ -91,7 +152,7 @@ public class EmpDAO
 		return emp;
 	}
 
-	// 2. Á¶°ÇÁ¶È¸(Æ¯Á¤ºÎ¼­)
+	// 2. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ï¿½Î¼ï¿½)
 	public List<EmpVO> selectByDept(int deptid)
 	{
 		List<EmpVO> emplist = new ArrayList<EmpVO>();
@@ -102,7 +163,7 @@ public class EmpDAO
 //			rs = st.executeQuery(SQL_SELECT_ALL);
 
 			pst = conn.prepareStatement(SQL_SELECT_BYDEPT);
-			pst.setInt(1, deptid); // Ã¹¹øÂ° ?(1) ¿¡ ºÎ¼­¹øÈ£(deptid)¸¦ ³Ö´Â´Ù.
+			pst.setInt(1, deptid); // Ã¹ï¿½ï¿½Â° ?(1) ï¿½ï¿½ ï¿½Î¼ï¿½ï¿½ï¿½È£(deptid)ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 			rs = pst.executeQuery();
 
 			while (rs.next())
@@ -121,7 +182,7 @@ public class EmpDAO
 		return emplist;
 	}
 
-	// 3. Á¶°ÇÁ¶È¸(Æ¯Á¤¸Þ´ÏÀú)
+	// 3. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ï¿½Þ´ï¿½ï¿½ï¿½)
 	public List<EmpVO> selectByManager(int mid)
 	{
 		List<EmpVO> emplist = new ArrayList<EmpVO>();
@@ -130,7 +191,7 @@ public class EmpDAO
 		{
 
 			pst = conn.prepareStatement(SQL_SELECT_BYMANAGER);
-			pst.setInt(1, mid); // Ã¹¹øÂ° ?(1) ¿¡ ºÎ¼­¹øÈ£(deptid)¸¦ ³Ö´Â´Ù.
+			pst.setInt(1, mid); // Ã¹ï¿½ï¿½Â° ?(1) ï¿½ï¿½ ï¿½Î¼ï¿½ï¿½ï¿½È£(deptid)ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 			rs = pst.executeQuery();
 
 			while (rs.next())
@@ -149,7 +210,7 @@ public class EmpDAO
 		return emplist;
 	}
 
-	// 4. Á¶°ÇÁ¶È¸(Æ¯Á¤ job_id)
+	// 4. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ job_id)
 	public List<EmpVO> selectByJob(String job_id)
 	{
 		List<EmpVO> emplist = new ArrayList<EmpVO>();
@@ -158,7 +219,7 @@ public class EmpDAO
 		{
 
 			pst = conn.prepareStatement(SQL_SELECT_JOB);
-			pst.setString(1, job_id); // Ã¹¹øÂ° ?(1) ¿¡ ³Ö´Â´Ù.
+			pst.setString(1, job_id); // Ã¹ï¿½ï¿½Â° ?(1) ï¿½ï¿½ ï¿½Ö´Â´ï¿½.
 			rs = pst.executeQuery();
 
 			while (rs.next())
@@ -177,7 +238,7 @@ public class EmpDAO
 		return emplist;
 	}
 
-	// 5. Á¶°ÇÁ¶È¸(Æ¯Á¤ department_id, jod_id, salary>=?, hire_date>=?)
+	// 5. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¸(Æ¯ï¿½ï¿½ department_id, jod_id, salary>=?, hire_date>=?)
 	public List<EmpVO> selectByCondition(int deptid, String job_id, double sal, String hire_date)
 	{
 
@@ -187,10 +248,10 @@ public class EmpDAO
 		{
 
 			pst = conn.prepareStatement(SQL_SELECT_CONDITION);
-			pst.setInt(1, deptid); // Ã¹¹øÂ° ? deptid ³Ö´Â´Ù.
-			pst.setString(2, job_id); // µÎ¹øÂ° ? job_id ³Ö´Â´Ù.
-			pst.setDouble(3, sal); // ¼¼¹øÂ° ? sal ³Ö´Â´Ù.
-			pst.setString(4, hire_date); // ³×¹øÂ° ? hire_date ³Ö´Â´Ù.
+			pst.setInt(1, deptid); // Ã¹ï¿½ï¿½Â° ? deptid ï¿½Ö´Â´ï¿½.
+			pst.setString(2, job_id); // ï¿½Î¹ï¿½Â° ? job_id ï¿½Ö´Â´ï¿½.
+			pst.setDouble(3, sal); // ï¿½ï¿½ï¿½ï¿½Â° ? sal ï¿½Ö´Â´ï¿½.
+			pst.setString(4, hire_date); // ï¿½×¹ï¿½Â° ? hire_date ï¿½Ö´Â´ï¿½.
 
 			rs = pst.executeQuery();
 
@@ -210,7 +271,7 @@ public class EmpDAO
 		return emplist;
 	}
 
-	// 6. Æ¯Á¤Á÷¿ø 1°Ç Á¶È¸(»ó¼¼º¸±â)
+	// 6. Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½È¸(ï¿½ó¼¼ºï¿½ï¿½ï¿½)
 	public EmpVO selectById(int empid)
 	{
 		EmpVO emp = null;
@@ -219,7 +280,7 @@ public class EmpDAO
 		{
 
 			pst = conn.prepareStatement(SQL_SELECT_ByID);
-			pst.setInt(1, empid); // Ã¹¹øÂ° ? empid ³Ö´Â´Ù..
+			pst.setInt(1, empid); // Ã¹ï¿½ï¿½Â° ? empid ï¿½Ö´Â´ï¿½..
 
 			rs = pst.executeQuery();
 
@@ -274,7 +335,7 @@ public class EmpDAO
 		return result;
 	}
 
-	// 8. update(Æ¯Á¤Á÷¿ø 1°Ç employee_id=?)
+	// 8. update(Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ employee_id=?)
 	public int empUpdate(EmpVO emp)
 	{
 		int result = 0;
@@ -284,8 +345,8 @@ public class EmpDAO
 		{
 			pst = conn.prepareStatement(SQL_UPDATE);
 			
-			pst.setInt(11, emp.getEmployee_id());
-			pst.setString(1, emp.getLast_name());
+			pst.setInt(12, emp.getEmployee_id());
+			pst.setString(1, emp.getFirst_name());
 			pst.setString(2, emp.getLast_name());
 			pst.setString(3, emp.getEmail());
 			pst.setString(4, emp.getPhone_number());
@@ -294,7 +355,8 @@ public class EmpDAO
 			pst.setDouble(7, emp.getSalary());
 			pst.setDouble(8, emp.getCommission_pct());
 			pst.setInt(9, emp.getManager_id());
-			pst.setInt(10, emp.getDepartment_id());
+			pst.setInt(10, emp.getManager_id());
+			pst.setInt(11, emp.getDepartment_id());
 			result = pst.executeUpdate();
 
 		} catch (SQLException e)
@@ -308,7 +370,7 @@ public class EmpDAO
 		return result;
 	}
 
-	// 9. update(Á¶°Ç department_id= ? )
+	// 9. update(ï¿½ï¿½ï¿½ï¿½ department_id= ? )
 	public int empUpdateByDept(EmpVO emp, int deptid)
 	{
 		int result = 0;
@@ -334,7 +396,7 @@ public class EmpDAO
 		return result;
 	}
 
-	// 10. delete(Æ¯Á¤Á÷¿ø 1°Ç employee_id=?)
+	// 10. delete(Æ¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ employee_id=?)
 	public int empDelete(int empid)
 	{
 		int result = 0;
@@ -357,7 +419,7 @@ public class EmpDAO
 		return result;
 	}
 
-	// 11. delete(Á¶°Ç employee_id=?)
+	// 11. delete(ï¿½ï¿½ï¿½ï¿½ employee_id=?)
 	public int empDeleteByDept(int deptid)
 	{
 		int result = 0;

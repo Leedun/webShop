@@ -31,6 +31,7 @@ table, td {
 		<td>작성자</td>
 		<td>작성일</td>
 		<td>수정일</td>
+		<td></td>
 	</tr>
 	
 <c:forEach items="${boardDatas}" var="board">
@@ -41,10 +42,23 @@ table, td {
 		<td>${board.writer}</td>
 		<td>${board.regdate}</td>
 		<td>${board.updatedate}</td>
+		<td><button class="btnDel" data-bno="${board.bno}">삭제하기</button></td>
 	</tr>
 </c:forEach>
 </table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-${boardDatas }
+<script>
+$(function(){
+	//# : 아이디를 의미, 아이디는 문서내에세 유일하다.
+	//. : 클래스를 의미
+	$(".btnDel").click(function(){
+		var bno = $(this).attr("data-bno");
+		if(confirm(bno+ "삭제?")){
+			location.href = "boardDelete.do?bno=" + bno;
+		}	
+	});	
+});
+</script>
 </body>
 </html>

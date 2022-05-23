@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+<title>Insert title here</title>
 <style type="text/css">
 table, td {
 	border: 1px solid green;
@@ -20,7 +26,9 @@ tr:first-child {
 </head>
 <body>
 	<h1>직원목록</h1>
-
+	<a href="empInsert.do">신규등록</a>
+	<br>
+	<br>
 	<table>
 		<tr>
 			<td>직원번호</td>
@@ -34,6 +42,7 @@ tr:first-child {
 			<td>메니져</td>
 			<td>직책</td>
 			<td>이메일</td>
+			<td></td>
 		</tr>
 
 		<c:forEach items="${emplist}" var="emp">
@@ -50,6 +59,12 @@ tr:first-child {
 				<td>${emp.manager_id }</td>
 				<td>${emp.job_id }</td>
 				<td>${emp.email }</td>
+				<td>
+					<form action="empDelete.do" method="post">
+						<input type="hidden" name="emp_id" value="${emp.employee_id}">					
+						<input type="submit" class="btn btn-primary"  value="삭제">					
+					</form>				
+				</td>
 			</tr>
 		</c:forEach>
 

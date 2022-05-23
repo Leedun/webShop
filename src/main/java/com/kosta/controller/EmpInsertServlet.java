@@ -1,8 +1,9 @@
 package com.kosta.controller;
 
-import java.awt.PageAttributes.OrientationRequestedType;
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,53 +12,52 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.kosta.dto.DeptDTO;
 import com.kosta.dto.EmpVO;
+import com.kosta.dto.JobVO;
+import com.kosta.model.DeptService;
 import com.kosta.model.EmpService;
 import com.kosta.util.DataUtil;
 
 /**
  * Servlet implementation class EmpDetailServlet
  */
-@WebServlet("/emp/empDetail.do")
-public class EmpDetailServlet extends HttpServlet {
+@WebServlet("/emp/empInsert.do")
+public class EmpInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
 		
-		String empid = request.getParameter("empid");
-		
-		int i_empid = 0;
-		//System.out.println("empid= "+empid);
-		
-		
-		if(empid!=null) {
-			i_empid = Integer.parseInt(empid);			
-		}
+		DeptService dService = new DeptService();
+		List<DeptDTO> dlist = dService.selectAll();
+
 		EmpService eService = new EmpService();
-		EmpVO emp =	eService.selectById(i_empid);
-		request.setAttribute("emp", emp);
+		List<JobVO> jlist = eService.selectJobAll();
 		
+		
+		request.setAttribute("dlist", dlist);
+		request.setAttribute("jlist", jlist);
+		request.setAttribute("mlist", eService.selectMGAll());
+		
+				
 		RequestDispatcher rd;
-		rd = request.getRequestDispatcher("empDetail.jsp");
+		rd = request.getRequestDispatcher("empInsert.jsp");
 		rd.forward(request, response);
 	}	
 	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//수정하기
+		//입력하기
+		
 		request.setCharacterEncoding("UTF-8");
 		EmpVO emp = makeEmp(request);
 		EmpService eService = new EmpService();
-		int result = eService.empUpdate(emp);
-		request.setAttribute("message", result>0?"직원정보 수정성공":"직원정보 수정실패");
+		int result = eService.empInsert(emp);
+		request.setAttribute("message", result>0?"직원정보 입력성공":"직원정보 입력실패");
 		
 		RequestDispatcher rd;
 		rd = request.getRequestDispatcher("result.jsp");
-		rd.forward(request, response);
-		
-			
-		
-		
+		rd.forward(request, response);				
 	}
 
 	private EmpVO makeEmp(HttpServletRequest request)
