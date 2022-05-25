@@ -40,14 +40,14 @@ public class BoardDAO
 	ResultSet rs;
 	int result;
 
-//	--3. JDBCÇÁ·Î±×·¥(SELECT, INSERT, UPDATE, DELETE) : ÇÔ¼öÀÌ¸§Àº ÀÚÀ¯·Ó°Ô
+//	--3. JDBCï¿½ï¿½ï¿½Î±×·ï¿½(SELECT, INSERT, UPDATE, DELETE) : ï¿½Ô¼ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ó°ï¿½
 
 	public List<BoardEmpVO> selectAllJoin()
 	{
 		
 		List<BoardEmpVO> boardlist = new ArrayList<>();
-		conn = DBUtill.getConnection();
 		BoardEmpVO board =null;
+		conn = DBUtill.getConnection();		//CPì´ìš©í•´ì„œ Connectionì–»ê¸°
 		try
 		{
 			st = conn.createStatement();

@@ -1,7 +1,7 @@
 package com.kosta.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+//import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.kosta.dto.UserVO;
+import com.kosta.model.UserService;
 
 /**
  * Servlet implementation class LoginServlet
@@ -16,28 +20,64 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/html/login.do")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+      
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher rd = request.getRequestDispatcher("loginForm.html"); 
+		rd.forward(request, response); 		
+	}
+	
+	
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//get¿äÃ»Àº ÁÖ¼ÒÃ¢¿¡ ÆÄ¶ó¸ŞÅÍ°¡ ÀÚµ¿À¸·Î ÀÎÄÚµùµÇ¾î ³Ñ¾î¿Â´Ù ÇÑ±Û ¾È±úÁü
-		//post¿äÃ»Àº ¿äÃ»¹®¼­ÀÇ body¿¡ ÆÄ¶ó¸ŞÅÍ°¡ ÀÎÄÚµù ¾øÀÌ ³Ñ¾î¿Â´Ù. ÇÑ±Û ±úÁü
-		request.setCharacterEncoding("utf-8"); //post¿¡¼­¸¸ ÇÊ¿ä
+		//getìš”ì²­ì€ ì£¼ì†Œì°½ì— íŒŒë¼ë©”í„°ê°€ ìë™ìœ¼ë¡œ ì¸ì½”ë”©ë˜ì–´ ë„˜ì–´ì˜¨ë‹¤. í•œê¸€ê¹¨ì§ì—†ìŒ
+		//postìš”ì²­ì€ ìš”ì²­ë¬¸ì„œì˜ bodyì— íŒŒë¼ë©”í„°ê°€ ì¸ì½”ë”©ì•ˆë˜ì–´ ë„˜ì–´ì˜¨ë‹¤. í•œê¸€ê¹¨ì§
+		request.setCharacterEncoding("utf-8"); //postì—ì„œë§Œ í•„ìš”
 		String id = request.getParameter("userid");
 		String pass = request.getParameter("userpass");
+		
+		
+		UserService service = new UserService();
+		UserVO user = service.selectById(id, pass);	
+		
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("user", user);
+		
+		
+		
+		if(user == null) {
+			//ë¡œê·¸ì¸ ì‹¤íŒ¨ì‹œ ë‹¤ì‹œ ë¡œê·¸ì¸í•˜ë„ë¡ ìœ ë„í•œë‹¤.
+			response.sendRedirect("login.do");
+		}else {
+			response.sendRedirect("../emp/emplist.do");
+		}
+		
+		
+	/*	
+		String email = request.getParameter("user_email");
+		String address = request.getParameter("user_address");
+	
 		System.out.println(id);
 		System.out.println(pass);
-		System.out.println(request.getMethod());//getÀÎÁö postÀÎÁö 
+		System.out.println(email);
+		System.out.println(address);
+		System.out.println(request.getMethod());//getï¿½ï¿½ï¿½ï¿½ postï¿½ï¿½ï¿½ï¿½ 
 		System.out.println(request.getContextPath()); 
-		
+		*/
 		/*
 		  msc1	
-		  //ÀÀ´ä¹®¼­ÀÇ Å¸ÀÔ°ú ÀÎÄÚµù ¹æ½ÄÀ» ÀÀ´ä¹®¼­¸¸µé±â Àü¿¡ settingÇÑ´Ù.
-		  response.setContentType("text/html;charset=utf-8"); //ÀÀ´ä¹®¼­ ¸¸µé±â PrintWriter
-		  out = response.getWriter(); out.write("<h1>·Î±×ÀÎ¿¡ ¼º°ø</h1>");
-		  out.write("<h2>DBÁ¢¼ÓÈÄ ´Ù½Ã ¼öÁ¤ÇÏ±â</h2>");		 
+		  //ï¿½ï¿½ï¿½ä¹®ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½Ô°ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ä¹®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ settingï¿½Ñ´ï¿½.
+		  response.setContentType("text/html;charset=utf-8"); //ï¿½ï¿½ï¿½ä¹®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ PrintWriter
+		  out = response.getWriter(); out.write("<h1>ï¿½Î±ï¿½ï¿½Î¿ï¿½ ï¿½ï¿½ï¿½ï¿½</h1>");
+		  out.write("<h2>DBï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½</h2>");		 
 		 */
 		
-		//ServletÀÌ ½ÇÇà°á°ú¸¦ JSP¿¡ À§ÀÓÇÑ´Ù. ÁÖ¼ÒÃ¢Àº º¯°æµÇÁö¾Ê´Â´Ù.
-		RequestDispatcher rd = request.getRequestDispatcher("../jsp/loginResult.jsp");
-		rd.forward(request, response);	//forward ³Ñ±â´Ù
-	}
+		//Servletï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ JSPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½. ï¿½Ö¼ï¿½Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê´Â´ï¿½.
+		/*
+		 * RequestDispatcher rd =
+		 * request.getRequestDispatcher("../jsp/loginResult.jsp"); rd.forward(request,
+		 * response); //forward ï¿½Ñ±ï¿½ï¿½
+		 */	
+		}
 }

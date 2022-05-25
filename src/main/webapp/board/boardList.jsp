@@ -17,6 +17,10 @@ table, td {
 </head>
 <body>
 <h1>게시판 목록</h1>
+<h3>
+	application정보얻기 : ${myname} <br>
+</h3>
+
 
 <a href="boardInsert.do">게시글 작성하기</a>
 <br>
