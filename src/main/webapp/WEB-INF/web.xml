@@ -22,6 +22,18 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
  	<param-value>12345</param-value>
  </context-param>
   
+  <!-- Filter등록 => @WebFilter("*.do")와 같다 -->
+  <filter>
+  	<filter-name>encodeFilter</filter-name>
+  	<filter-class>com.kosta.filterListener.EncodeFilter</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>encodeFilter</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+  
+  
   
   <!-- 서블릿 요청에 대한 설정을 XML에서 하기 ...@WebServlet와 같다  -->
   <servlet>

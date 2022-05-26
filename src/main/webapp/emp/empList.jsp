@@ -22,11 +22,26 @@ table, td {
 tr:first-child {
 	background-color: green;
 }
+.h1 {text-align: center; padding: 20px; margin: 10px;}
+.left {float: left; padding-left: 20px;}
+.right{float: right; padding-right: 20px; }
+
 </style>
 </head>
 <body>
 	<h1>직원목록</h1>
-	<a href="empInsert.do">신규등록</a>
+	<hr>
+	<%-- <h2>EL(Expression language)문법</h2>
+		<p>application영역의 접근 : ${appVar}</p>
+		<p>session영역의 접근 :${sessionVar}</p>
+		<p>request영역의 접근 : ${requestVar}</p> --%>
+		
+	<hr>
+	<div><span><a class="left" href="empInsert.do">신규등록</a></span></div>
+	
+	<%-- ${pageContext.request.contextPath} --%>
+	
+	<%@ include file="../common/header.jsp" %>
 	<br>
 	<br>
 	<table>

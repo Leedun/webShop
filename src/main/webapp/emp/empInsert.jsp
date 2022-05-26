@@ -19,6 +19,7 @@
 </head>
 <body>
 <h1>직원의 신규등록</h1>
+<%@ include file="../common/header.jsp" %>
 <form action="empInsert.do" method="post">
 
 <div class="form-group">

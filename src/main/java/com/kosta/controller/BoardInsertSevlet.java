@@ -37,7 +37,7 @@ public class BoardInsertSevlet extends HttpServlet {
 
 	//입력된 data를 DB에 저장하기
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		//Filter로 처리함 request.setCharacterEncoding("utf-8");
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");

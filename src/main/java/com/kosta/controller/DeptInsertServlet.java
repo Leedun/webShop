@@ -29,7 +29,7 @@ public class DeptInsertServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
+		//Filter로 처리함 request.setCharacterEncoding("utf-8");
 		
 		int department_id =  Integer.parseInt(request.getParameter("department_id"));
 		int manager_id =  Integer.parseInt(request.getParameter("manager_id"));

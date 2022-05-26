@@ -22,7 +22,7 @@ table, td {
 <a href="deptInsert.do">신규 부서 등록</a>
 <br>
 <br>
-
+<%@ include file="../common/header.jsp" %>
 <table>
 	<tr>
 		<td>부서번호</td>

@@ -1,6 +1,6 @@
 package com.kosta.controller;
 
-import java.awt.PageAttributes.OrientationRequestedType;
+//import java.awt.PageAttributes.OrientationRequestedType;
 import java.io.IOException;
 import java.sql.Date;
 
@@ -10,8 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.kosta.dto.EmpVO;
+import com.kosta.dto.UserVO;
 import com.kosta.model.EmpService;
 import com.kosta.util.DataUtil;
 
@@ -23,6 +25,7 @@ public class EmpDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+		
 		
 		String empid = request.getParameter("empid");
 		
@@ -45,7 +48,7 @@ public class EmpDetailServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//수정하기
-		request.setCharacterEncoding("UTF-8");
+		//Filter로 처리함 request.setCharacterEncoding("UTF-8");
 		EmpVO emp = makeEmp(request);
 		EmpService eService = new EmpService();
 		int result = eService.empUpdate(emp);

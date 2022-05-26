@@ -12,6 +12,10 @@ table, td {
 	border-collapse: collapse;
 	padding: 10px;
 	}
+.h1 {text-align: center; padding: 20px; margin: 10px;}
+.left {float: left; padding-left: 20px;}
+.right{float: right; padding-right: 20px; }	
+	
 </style>
 
 </head>
@@ -23,6 +27,9 @@ table, td {
 
 
 <a href="boardInsert.do">게시글 작성하기</a>
+<hr>
+<%@ include file="../common/header.jsp" %>
+
 <br>
 <br>
 
