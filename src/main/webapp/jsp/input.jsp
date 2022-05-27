@@ -1,24 +1,40 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@page import="com.kosta.dto.Product"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" %>
+    
+<%
+/*  
+//errorì—°ìŠµì„ ìœ„í•´ ì¶”ê°€í•¨
+String num = "100dgdfg";
+int num2 = Integer.parseInt(num);
+  */
+
+%>    
+    
+    
+    
 <html>
 <head>
 <title>Shop Cart</title>
 </head>
 <body>
 	<hr>
-	<h3>°úÀÏÀ» ¼±ÅÃÇÏ°í ¼ö·®À» ÀÔ·ÂÇÑ ÈÄ Àå¹Ù±¸´Ï¿¡ ´ãÀ¸¼¼¿ä.</h3>
+	<h3>ê³¼ì¼ì„ ì„ íƒí•˜ê³  ìˆ˜ëŸ‰ì„ ìž…ë ¥í•œ í›„ ìž¥ë°”êµ¬ë‹ˆì— ë‹´ìœ¼ì„¸ìš”.</h3>
 	<hr>
-	<form action='./output.jsp'>
+<!-- 	<form action='./output.jsp'> -->
+	<form action='./output2.jsp' method="post">
 	<select name='prod'>
-		<option value='»ç°ú'>»ç°ú(1°³ 800)
-		<option value='ÇÑ¶óºÀ'>ÇÑ¶óºÀ(1°³ 2000)
-		<option value='¸Þ·Ð'>¸Þ·Ð(1°³ 20000)
-		<option value='º¹¼þ¾Æ'>º¹¼þ¾Æ(1°³ 6000)
+		<option value='ì‚¬ê³¼'>ì‚¬ê³¼(1ê°œ 800)
+		<option value='í•œë¼ë´‰'>í•œë¼ë´‰(1ê°œ 2000)
+		<option value='ë©”ë¡ '>ë©”ë¡ (1ê°œ 20000)
+		<option value='ë³µìˆ­ì•„'>ë³µìˆ­ì•„(1ê°œ 6000)
 	</select>
-	<input type='text' name='count' size='5' />°³<br>
+	<input type='text' name='count' size='5' value="1"/>ê°œ<br>
 	<br>
 	<br>
-	<input type='submit' value='Àå¹Ù±¸´Ï ´ã±â' /></form>
+	<input type='submit' value='ìž¥ë°”êµ¬ë‹ˆ ë‹´ê¸°' /></form>
+	<!-- <button onclick="location.href='output2.jsp'">ìž¥ë°”êµ¬ë‹ˆë³´ê¸°</button> -->
 	<hr>
+
 </body>
 </html>

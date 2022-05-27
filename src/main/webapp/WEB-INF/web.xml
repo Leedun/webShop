@@ -12,6 +12,15 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/error/errorPage_500.jsp</location>  
+  </error-page>
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/error/errorPage_404.jsp</location>  
+  </error-page>
+  
   
  <context-param>
  	<param-name>userid</param-name>
@@ -29,7 +38,8 @@ xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/
   </filter>
   <filter-mapping>
   	<filter-name>encodeFilter</filter-name>
-  	<url-pattern>*.do</url-pattern>
+ <!--  	<url-pattern>*.do</url-pattern> -->
+  	<url-pattern>/*</url-pattern>
   </filter-mapping>
   
   

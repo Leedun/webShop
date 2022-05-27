@@ -46,7 +46,7 @@ public class BoardInsertSevlet extends HttpServlet {
 		BoardVO board = new BoardVO(0, title, content, writer, null, null);
 		BoardService service = new BoardService();
 		
-
+		
 		service.boardInsert(board);		
 		response.sendRedirect("boardlist.do");
 		
