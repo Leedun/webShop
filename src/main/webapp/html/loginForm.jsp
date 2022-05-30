@@ -10,9 +10,11 @@
 <body>
 <h1>로그인하기</h1>
 
-<%@ include file="../common/header.jsp" %>
 
 
+<!-- 
+<link rel="stylesheet" href="../css/common.css"> 
+-->
 
 <form action="login.do" method="post">
 사용자번호:<input type="text" name="userid"><br>

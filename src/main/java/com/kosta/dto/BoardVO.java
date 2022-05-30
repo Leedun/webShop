@@ -14,7 +14,30 @@ public class BoardVO
 	private Date updatedate;
 	
 	
-	
+	private EmpVO emp;	
+	public EmpVO getEmp()
+	{
+		System.out.println("getEmp....."+emp);
+		return emp;
+	}
+
+
+	public void setEmp(EmpVO emp)
+	{
+		System.out.println("setEmp....."+emp);
+		this.emp = emp;
+	}
+
+	public BoardVO(String title, String content, int writer, EmpVO emp)
+	{
+		super();
+		this.title = title;
+		this.content = content;
+		this.writer = writer;
+		this.emp = emp;
+	}
+
+
 	
 	
 	public BoardVO()

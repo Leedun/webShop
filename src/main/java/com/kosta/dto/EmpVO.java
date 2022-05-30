@@ -2,8 +2,8 @@ package com.kosta.dto;
 
 import java.sql.Date;
 
-//CRUDÀÛ¾÷ (insert(C), select(R), update(U), Delete(D)  ==> DAO
-//DAOÀÛ¾÷¿Ï·á ÈÄ Service¿¡ Àü´ÞÇÒ ¶§ returnÀº 1°³¸¸ °¡´É... ¿©·¯ °ªÀ» ¹­À½(class·Î Á¤ÀÇÇÏ°í object¸¦ ¸¸µé¾î¼­ return)
+//CRUDï¿½Û¾ï¿½ (insert(C), select(R), update(U), Delete(D)  ==> DAO
+//DAOï¿½Û¾ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ Serviceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ returnï¿½ï¿½ 1ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½... ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(classï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ objectï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½î¼­ return)
 public class EmpVO
 {
 	//field, default constructor, getter/setter
@@ -19,6 +19,22 @@ public class EmpVO
 	private int manager_id;
 	private int department_id;
 	
+	
+	
+	
+	
+	
+	public EmpVO(int employee_id, String first_name, String last_name)
+	{
+		super();
+		this.employee_id = employee_id;
+		this.first_name = first_name;
+		this.last_name = last_name;
+	}
+	public EmpVO()
+	{
+		super();
+	}
 	public int getEmployee_id()
 	{
 		return employee_id;

@@ -6,16 +6,26 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="../css/common.css">
+
 <style type="text/css">
 table, td {
 	border: 5px solid green;
 	border-collapse: collapse;
 	padding: 10px;
 	}
+
+
+/* 
+h1 {text-align: center; padding: 20px; margin: 10px;}
 .h1 {text-align: center; padding: 20px; margin: 10px;}
 .left {float: left; padding-left: 20px;}
 .right{float: right; padding-right: 20px; }	
-	
+ */
+
+.color1 {background-color: lightgray;}
+.color2 {background-color: white;}
+.color3 {background-color: yellow;}
 </style>
 
 </head>
@@ -28,7 +38,7 @@ table, td {
 
 <a href="boardInsert.do">게시글 작성하기</a>
 <hr>
-<%@ include file="../common/header.jsp" %>
+
 
 <br>
 <br>
@@ -36,6 +46,7 @@ table, td {
 
 <table>
 	<tr>
+		<td>순서</td>
 		<td>번호</td>
 		<td>제목</td>
 		<td>내용</td>
@@ -44,15 +55,24 @@ table, td {
 		<td>수정일</td>
 		<td></td>
 	</tr>
-	
-<c:forEach items="${boardDatas}" var="board">
-	<tr>		
-		<td><a href="boardDetail.do?boardid=${board.bno}">${board.bno}</a></td>		<!-- a태그는 post가 안된다 --> 
+
+
+
+
+<%-- 
+방법1 : ${boardSize }<br>
+방법2 : <c:set var="listSize" value="${boardDatas.size() }"> </c:set>
+ --%>
+<c:forEach items="${boardDatas}" var="board" varStatus="rowStatus">
+	<tr  class="${rowStatus.count%2==0?'color1':'color2'}" >	
+		<td>${rowStatus.count}....${listSize-rowStatus.index } </td>
+		<td><a href="boardDetail.do?boardid=${board.bno}">${board.bno}</a></td>		<!-- a태그는 post가 안된다 -->		 
 		<td>${board.title}</td>
 		<td>${board.content}</td>
 		<td>${board.writer}</td>
 		<td>${board.regdate}</td>
 		<td>${board.updatedate}</td>
+<%-- 		<td><button class="btnDel btn-primary" data-bno="${board.bno}">삭제하기</button></td> --%>
 		<td><button class="btnDel" data-bno="${board.bno}">삭제하기</button></td>
 	</tr>
 </c:forEach>
