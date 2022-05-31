@@ -87,5 +87,11 @@ public class EmpService
 		{
 			return emoDAO.empDeleteByDept(deptid);
 		}
+		
+		//이메일 중복체크
+		public int selectByEmail(String email)
+		{
+			return emoDAO.selectByEmail(email);
+		}
 
 }

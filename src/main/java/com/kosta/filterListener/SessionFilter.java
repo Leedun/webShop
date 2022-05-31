@@ -17,7 +17,7 @@ import com.kosta.dto.UserVO;
 /**
  * Servlet Filter implementation class SessionFilter
  */
-//@WebFilter("/*")
+@WebFilter("/*")
 public class SessionFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		/////////////Session처리/////////////////////

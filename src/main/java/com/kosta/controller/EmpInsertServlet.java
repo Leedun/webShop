@@ -24,7 +24,7 @@ import com.kosta.util.DataUtil;
 /**
  * Servlet implementation class EmpDetailServlet
  */
-@WebServlet("/emp/empInsert.do")
+//@WebServlet("/emp/empInsert.do")
 public class EmpInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

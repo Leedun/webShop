@@ -1,65 +1,47 @@
-package com.kosta.controller;
+package com.kosta.designpattern;
 
-//import java.awt.PageAttributes.OrientationRequestedType;
-import java.io.IOException;
 import java.sql.Date;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.kosta.dto.EmpVO;
 import com.kosta.model.EmpService;
 import com.kosta.util.DataUtil;
 
-/**
- * Servlet implementation class EmpDetailServlet
- */
-//@WebServlet("/emp/empDetail.do")
-public class EmpDetailServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
+public class EmpDetailController implements Command
+{
+	@Override
+	public String execute(HttpServletRequest request)
+	{
 		
-		
-		String empid = request.getParameter("empid");
-		
-		int i_empid = 0;
-		//System.out.println("empid= "+empid);
-		
-		
-		if(empid!=null) {
-			i_empid = Integer.parseInt(empid);			
-		}
-		EmpService eService = new EmpService();
-		EmpVO emp =	eService.selectById(i_empid);
-		request.setAttribute("emp", emp);
-		
-		RequestDispatcher rd;
-		rd = request.getRequestDispatcher("empDetail.jsp");
-		rd.forward(request, response);
-	}	
-	
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//수정하기
-		//Filter로 처리함 request.setCharacterEncoding("UTF-8");
-		EmpVO emp = makeEmp(request);
-		EmpService eService = new EmpService();
-		int result = eService.empUpdate(emp);
-		request.setAttribute("message", result>0?"직원정보 수정성공":"직원정보 수정실패");
-		
-		RequestDispatcher rd;
-		rd = request.getRequestDispatcher("result.jsp");
-		rd.forward(request, response);
-		
+		String method = request.getMethod();
+		String page = null;
+		if(method.equals("GET")) {
 			
+			
+			String empid = request.getParameter("empid");			
+			int i_empid = 0;
+			
+			
+			if(empid!=null) {
+				i_empid = Integer.parseInt(empid);			
+			}
+			EmpService eService = new EmpService();
+			EmpVO emp =	eService.selectById(i_empid);
+			request.setAttribute("emp", emp);
+			
+			page = "empDetail.jsp";
+		}else {
+			EmpVO emp = makeEmp(request);
+			EmpService eService = new EmpService();
+			int result = eService.empUpdate(emp);
+			request.setAttribute("message", result>0?"직원정보 수정성공":"직원정보 수정실패");
+			
+			page ="result.jsp";
+		}
 		
-		
+		return page;
 	}
-
+	
 	private EmpVO makeEmp(HttpServletRequest request)
 	{
 		EmpVO emp = new EmpVO();
@@ -108,12 +90,5 @@ public class EmpDetailServlet extends HttpServlet {
 		String data = request.getParameter(column);		
 		return DataUtil.convertToDate(data);
 	}
-
-
-
-	
-	
-	
-	
 
 }

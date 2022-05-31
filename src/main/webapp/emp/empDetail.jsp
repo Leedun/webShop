@@ -18,7 +18,7 @@
 </head>
 <body>
 <h1>직원의 상세내역</h1>
-<%@ include file="../common/header.jsp" %>
+
 <form action="empDetail.do" method="post">
 
 

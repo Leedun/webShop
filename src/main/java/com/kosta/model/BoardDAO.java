@@ -22,7 +22,7 @@ public class BoardDAO
 	static final String SQL_SELECT_TITLE = "SELECT * FROM TB_BOARD WHERE title LIKE ?";
 	static final String SQL_SELECT_BYREGDATE = "SELECT * FROM TB_BOARD WHERE regdate BETWEEN ? and ?";
 	
-	static final String SQL_INSERT = "INSERT INTO TB_BOARD VALUES( seq_bno.nextval, ?, ?, ?, sysdate, sysdate)";
+	static final String SQL_INSERT = "INSERT INTO TB_BOARD VALUES( seq_bno.nextval, ?, ?, ?, sysdate, sysdate, ?)";
 	//static final String SQL_UPDATE = "";
 	static final String SQL_UPDATE = "UPDATE TB_BOARD SET\r\n"
 			+ "title = ?,\r\n"
@@ -86,6 +86,7 @@ public class BoardDAO
 		board.setWriter(rs.getInt(4));
 		board.setRegdate(rs.getDate(5));
 		board.setUpdatedate(rs.getDate(6));
+		board.setPic(rs.getString("pic"));
 		return board;
 	}
 	
@@ -243,6 +244,7 @@ public class BoardDAO
 			pst.setString(1, board.getTitle());
 			pst.setString(2, board.getContent());
 			pst.setInt(3, board.getWriter());				
+			pst.setString(4, board.getPic());				
 			
 			result = pst.executeUpdate();
 

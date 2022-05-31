@@ -23,9 +23,17 @@
 $(function(){
 	$("#duplicateCheckBtn").click(function(){
 		//alrert("버튼누름");
+ 		
+		var empid = $("#employee_id").val();
+		if(empid=="" || empid==null){
+			alert("직원번호는 필수입력입니다.");
+			$("#employee_id").focus();
+			return;
+		}
+		
 		$.ajax({
 			url:"duplicateCheckBtn.do",
-			data:{"empid":$("#employee_id").val() },
+			data:{"empid":empid },
 			type:"get",
 			success: function(responseData){
 				//중복: 1, 중복안됨: 0
@@ -33,6 +41,31 @@ $(function(){
 			},
 			fail:function(){}
 		});
+				 
+	});
+
+				 
+				 
+	$("#emailduplicateCheckBtn").click(function(){
+						
+		var empEmail = $("#email").val();
+		if(empEmail=="" || empEmail==null){
+			alert("이메일은 필수입력입니다.");
+			$("#email").focus();
+			return;
+		}		
+		
+		$.ajax({
+			url:"emailduplicateCheckBtn.do",
+			data:{"email":empEmail},
+			type:"get",
+			success: function(responseData){
+				//중복: 1, 중복안됨: 0
+				$("#message2").html(responseData==1?"사용불가":"사용가능");
+			},
+			fail:function(){}
+		});
+				
 	});
 });
 
@@ -64,7 +97,9 @@ $(function(){
 
 <div class="form-group">
 <label>이메일</label>
-<input class="form-control"  type="text" name="email"> 
+<input class="form-control"  type="text" name="email" id="email"> 
+<input type="button" id="emailduplicateCheckBtn" value="중복체크">
+<span id="message2">!!!!</span>
 </div>
 
 
@@ -117,8 +152,15 @@ $(function(){
 
 <input class="btn btn-primary" type="submit" value="입력하기">
 <input class="btn btn-secondary" type="reset" value="취소하기">
+<input class="btn btn-secondary" type="button" value="목록보기" id="empList">
 </form>
- 
+<script>
+$(function(){
+	$("#empList").click(function(){
+		location.href="emplist.do";
+	});
+});
+</script>
 </body>
 </html>
 

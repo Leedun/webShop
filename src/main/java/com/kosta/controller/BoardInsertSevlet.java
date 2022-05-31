@@ -1,6 +1,8 @@
 package com.kosta.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.kosta.dto.BoardVO;
 import com.kosta.model.BoardService;
+import com.kosta.util.UploadFileHelper;
 
 /**
  * Servlet implementation class BoardInsertSevlet
@@ -38,12 +41,24 @@ public class BoardInsertSevlet extends HttpServlet {
 	//입력된 data를 DB에 저장하기
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Filter로 처리함 request.setCharacterEncoding("utf-8");
-		
+	//	/*
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		int writer =  Integer.parseInt(request.getParameter("writer"));
+	//	*/
+		
+		
+		
 
 		BoardVO board = new BoardVO(0, title, content, writer, null, null);
+		Map<String, Object> map = (Map<String, Object>)UploadFileHelper.uploadFile("uploads", request);
+		List<String> fileNames = (List<String>) map.get("potos");
+		String pic = fileNames.get(0);
+		
+		board.setPic(pic);
+		
+		System.out.println("testest"+board);
+		
 		BoardService service = new BoardService();
 		
 		

@@ -16,7 +16,7 @@ import com.kosta.model.EmpService;
 /**
  * Servlet implementation class EmpDeleteServlet
  */
-@WebServlet("/emp/empDelete.do")
+//@WebServlet("/emp/empDelete.do")
 public class EmpDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
   

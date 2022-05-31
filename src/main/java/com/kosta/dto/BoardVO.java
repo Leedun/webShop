@@ -12,9 +12,25 @@ public class BoardVO
 	private int writer;
 	private Date regdate;
 	private Date updatedate;
-	
+	private String pic;
 	
 	private EmpVO emp;	
+	
+	
+	
+	
+	public String getPic()
+	{
+		return pic;
+	}
+
+
+	public void setPic(String pic)
+	{
+		this.pic = pic;
+	}
+
+
 	public EmpVO getEmp()
 	{
 		System.out.println("getEmp....."+emp);
@@ -115,17 +131,28 @@ public class BoardVO
 	{
 		this.updatedate = updatedate;
 	}
-	
+
+
 	@Override
 	public String toString()
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("BoardVO [bno=").append(bno).append(", title=").append(title).append(", content=")
 				.append(content).append(", writer=").append(writer).append(", regdate=").append(regdate)
-				.append(", updatedate=").append(updatedate).append("]");
+				.append(", updatedate=").append(updatedate).append(", pic=").append(pic).append(", emp=").append(emp)
+				.append("]");
 		return builder.toString();
 	}
 	
+	/*
+	 * @Override public String toString() { StringBuilder builder = new
+	 * StringBuilder();
+	 * builder.append("BoardVO [bno=").append(bno).append(", title=").append(title).
+	 * append(", content=")
+	 * .append(content).append(", writer=").append(writer).append(", regdate=").
+	 * append(regdate) .append(", updatedate=").append(updatedate).append("]");
+	 * return builder.toString(); }
+	 */
 	
 
 	

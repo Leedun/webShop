@@ -47,6 +47,10 @@ public class EmpDAO
 			+ "FROM EMPLOYEES\r\n"
 			+ "WHERE EMPLOYEE_ID  IN (SELECT DISTINCT MANAGER_ID FROM EMPLOYEES)";
 
+	
+	
+	static final String SQL_EMAIL_DUP = "select count(*) from employees where email=?";
+	
 	Connection conn;
 	Statement st;
 	PreparedStatement pst; // ���ε� ���� ���� (?)
@@ -441,5 +445,35 @@ public class EmpDAO
 
 		return result;
 	}
+	
+	//이메일 중복체크하기
+	public int selectByEmail(String email)
+	{
+		int reasult = 0;
+		conn = DBUtill.getConnection();
+		try
+		{
+			
+			pst = conn.prepareStatement(SQL_EMAIL_DUP);
+			pst.setString(1, email);
+			
+			rs = pst.executeQuery();
+			
+			while (rs.next())
+			{
+				reasult = rs.getInt(1);
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			DBUtill.dbClose(rs, pst, conn);
+		}
+		
+		return reasult;
+	}
+
 
 }
